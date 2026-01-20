@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Pathogenesis Discovery Prompt Template
+Used by: Claude (complex reasoning)
+Based on: LongevityBench structured prompt findings
+-->
+
+<template name="pathogenesis_synthesis">
+    <task>
+        Analyze patient/experimental data to identify disease mechanisms for {disease}.
+    </task>
+
+    <question>{question}</question>
+
+    <options>{options}</options>
+
+    <patient_data>
+        <demographic>{demographic}</demographic>
+        <clinical_history>{clinical_history}</clinical_history>
+        <biomarkers>{biomarkers}</biomarkers>
+        <medications>{medications}</medications>
+    </patient_data>
+
+    <omics_results>
+        <differential_expression>
+            {de_results}
+        </differential_expression>
+        <pathway_enrichment>
+            {pathway_results}
+        </pathway_enrichment>
+        <quality_metrics>
+            {qc_metrics}
+        </quality_metrics>
+    </omics_results>
+
+    <literature_context>
+        {rag_literature}
+    </literature_context>
+
+    <database_evidence>
+        <opengenes>{opengenes_data}</opengenes>
+        <drugbank>{drugbank_data}</drugbank>
+        <kegg>{kegg_data}</kegg>
+    </database_evidence>
+
+    <instructions>
+        1. Analyze each data category independently
+        2. Identify risk factors and protective factors
+        3. Cross-reference omics findings with literature
+        4. Propose pathogenic mechanism hypothesis
+        5. Assign evidence tier (tier1/tier2/tier3) to each claim:
+           - tier1: Replicated + causal + literature support
+           - tier2: Replicated association
+           - tier3: Single analysis only
+        6. Output CLASSIFICATION only (High/Medium/Low impact)
+        7. Cite ALL evidence sources (PMIDs, database IDs)
+        8. NO uncited claims allowed
+    </instructions>
+
+    <output_format>
+        Return JSON with exact schema:
+        {
+            "summary": "Brief synthesis overview",
+            "mechanisms": [
+                {
+                    "name": "Mechanism name",
+                    "description": "Mechanism description",
+                    "impact": "High|Medium|Low",
+                    "key_genes": ["gene1", "gene2"],
+                    "key_pathways": ["pathway1"]
+                }
+            ],
+            "claims": [
+                {
+                    "text": "Claim statement",
+                    "confidence": 0.0-1.0,
+                    "evidence_tier": "tier1|tier2|tier3",
+                    "evidence": [
+                        {"type": "literature", "pmid": "12345678", "quote": "relevant quote"},
+                        {"type": "database", "source": "KEGG", "id": "hsa04151"}
+                    ]
+                }
+            ],
+            "next_steps": ["Suggested follow-up 1", "Suggested follow-up 2"],
+            "warnings": ["Any caveats or limitations"]
+        }
+    </output_format>
+
+    <constraints>
+        - Classification over regression (categorical outputs only)
+        - Every claim must have evidence
+        - No hallucinated PMIDs or database IDs
+        - Distinguish correlation from causation
+    </constraints>
+</template>

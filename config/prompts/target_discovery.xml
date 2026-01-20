@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Target Discovery Prompt Template
+Used by: Gemini (code generation) -> Tool execution -> Claude (interpretation)
+Based on: LongevityBench "LLMs write code, tools execute" principle
+-->
+
+<template name="target_discovery_code">
+    <task>
+        Generate Python code to analyze omics data for drug target identification.
+    </task>
+
+    <research_question>{question}</research_question>
+
+    <data_context>
+        <organism>{organism}</organism>
+        <tissue>{tissue}</tissue>
+        <disease>{disease}</disease>
+        <data_type>{omics_type}</data_type>
+        <data_path>{data_path}</data_path>
+    </data_context>
+
+    <analysis_requirements>
+        <primary_analysis>{analysis_type}</primary_analysis>
+        <tools_available>
+            pandas, numpy, scipy, scanpy, gseapy, pydeseq2, statsmodels, rdkit
+        </tools_available>
+        <output_format>JSON</output_format>
+    </analysis_requirements>
+
+    <scoring_criteria>
+        <druggability>
+            - Protein class (kinase, GPCR, ion channel score higher)
+            - Binding pocket presence
+            - Existing ligands in ChEMBL
+        </druggability>
+        <safety>
+            - Tissue specificity (GTEx expression)
+            - Essential gene status
+            - Off-target binding predictions
+        </safety>
+        <novelty>
+            - Existing drugs against target
+            - Patent landscape
+            - Clinical trial activity
+        </novelty>
+    </scoring_criteria>
+
+    <instructions>
+        1. Write complete, executable Python code
+        2. Include all necessary imports
+        3. Load and validate input data
+        4. Implement requested analysis
+        5. Output structured results as JSON
+        6. Add comments explaining each step
+        7. Handle errors gracefully
+        8. Do NOT hallucinate - use only provided data
+    </instructions>
+
+    <code_template>
+        ```python
+        import json
+        import pandas as pd
+        import numpy as np
+        # Add other imports as needed
+
+        def analyze_targets(data_path: str) -> dict:
+            """
+            Analyze omics data for target identification.
+
+            Args:
+                data_path: Path to input data
+
+            Returns:
+                Dictionary with analysis results
+            """
+            # Load data
+            # ...
+
+            # Analysis steps
+            # ...
+
+            # Return structured results
+            return {
+                "targets": [],
+                "scores": {},
+                "metadata": {}
+            }
+
+        if __name__ == "__main__":
+            results = analyze_targets("{data_path}")
+            print(json.dumps(results, indent=2))
+        ```
+    </code_template>
+
+    <output_schema>
+        {
+            "targets": [
+                {
+                    "gene_symbol": "string",
+                    "ensembl_id": "string",
+                    "uniprot_id": "string",
+                    "druggability_score": 0.0-1.0,
+                    "safety_score": 0.0-1.0,
+                    "evidence_score": 0.0-1.0,
+                    "composite_score": 0.0-1.0
+                }
+            ],
+            "pathway_associations": {},
+            "expression_data": {},
+            "analysis_metadata": {
+                "input_file": "string",
+                "analysis_date": "ISO8601",
+                "parameters": {}
+            }
+        }
+    </output_schema>
+</template>
+
+<template name="target_prioritization">
+    <task>
+        Prioritize drug targets based on analysis results (Claude interpretation).
+    </task>
+
+    <candidates>
+        {target_list}
+    </candidates>
+
+    <criteria>
+        {prioritization_criteria}
+    </criteria>
+
+    <reference_data>
+        <approved_drugs>{approved_drug_targets}</approved_drugs>
+        <clinical_trials>{trial_targets}</clinical_trials>
+        <literature>{literature_support}</literature>
+    </reference_data>
+
+    <instructions>
+        1. Evaluate each target against all criteria
+        2. Consider druggability, safety, tissue specificity
+        3. Flag potential off-target risks
+        4. Rank targets with detailed rationale
+        5. CLASSIFY each target: High Priority / Medium / Low / Exclude
+        6. Cite evidence for each decision
+    </instructions>
+
+    <output_format>
+        {
+            "ranked_targets": [
+                {
+                    "rank": 1,
+                    "target": "gene_symbol",
+                    "priority": "High|Medium|Low|Exclude",
+                    "scores": {
+                        "druggability": 0.0-1.0,
+                        "safety": 0.0-1.0,
+                        "novelty": 0.0-1.0
+                    },
+                    "rationale": "Detailed justification",
+                    "risks": ["Identified risk 1"],
+                    "evidence": [
+                        {"type": "literature", "pmid": "12345678"}
+                    ]
+                }
+            ],
+            "top_recommendation": {
+                "target": "gene_symbol",
+                "justification": "Why this is the best choice"
+            },
+            "excluded_targets": [
+                {
+                    "target": "gene_symbol",
+                    "reason": "Why excluded"
+                }
+            ]
+        }
+    </output_format>
+</template>

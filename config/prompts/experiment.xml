@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Experiment Design Prompt Template
+Used by: Claude (complex reasoning)
+Feature: Suggest validation experiments for hypotheses
+-->
+
+<template name="experiment_design">
+    <task>
+        Design validation experiments for the hypothesis.
+    </task>
+
+    <hypothesis>
+        <statement>{hypothesis}</statement>
+        <source>{hypothesis_source}</source>
+        <evidence_tier>{current_tier}</evidence_tier>
+    </hypothesis>
+
+    <target_context>
+        <target>{target}</target>
+        <disease>{disease}</disease>
+        <mechanism>{mechanism}</mechanism>
+        <species>{species}</species>
+    </target_context>
+
+    <existing_evidence>
+        <supporting>
+            {supporting_evidence}
+        </supporting>
+        <contradicting>
+            {contradicting_evidence}
+        </contradicting>
+        <gaps>
+            {evidence_gaps}
+        </gaps>
+    </existing_evidence>
+
+    <constraints>
+        <budget>{budget_tier}</budget>
+        <timeline>{timeline}</timeline>
+        <available_models>{available_models}</available_models>
+        <equipment>{available_equipment}</equipment>
+        <expertise>{team_expertise}</expertise>
+    </constraints>
+
+    <instructions>
+        1. Design experiments from simplest to most complex
+        2. Include "kill experiment" (fastest way to disprove)
+        3. Specify positive and negative controls
+        4. Define readouts and expected results
+        5. Estimate cost tier ($ / $$ / $$$)
+        6. Prioritize by information gain per dollar
+        7. Include statistical power considerations
+        8. Suggest experiment sequence
+    </instructions>
+
+    <output_format>
+        {
+            "hypothesis_assessment": {
+                "testability": "High|Medium|Low",
+                "falsifiability": "Clear|Moderate|Unclear",
+                "current_confidence": 0.0-1.0
+            },
+            "kill_experiment": {
+                "name": "Experiment name",
+                "description": "What would disprove the hypothesis",
+                "readout": "What to measure",
+                "expected_if_false": "Result if hypothesis is wrong",
+                "cost_tier": "$|$$|$$$",
+                "timeline": "Duration estimate",
+                "rationale": "Why this is the fastest disproof"
+            },
+            "experiments": [
+                {
+                    "priority": 1,
+                    "name": "Experiment name",
+                    "type": "in_vitro|in_vivo|in_silico|clinical",
+                    "description": "Detailed description",
+                    "model_system": "Cell line/animal model/etc",
+                    "controls": {
+                        "positive": "Description",
+                        "negative": "Description",
+                        "vehicle": "Description"
+                    },
+                    "readouts": [
+                        {
+                            "measurement": "What to measure",
+                            "method": "How to measure",
+                            "expected_result": "If hypothesis true",
+                            "threshold": "Statistical threshold"
+                        }
+                    ],
+                    "sample_size": {
+                        "n": "Number",
+                        "power": "Statistical power",
+                        "rationale": "How calculated"
+                    },
+                    "cost_tier": "$|$$|$$$",
+                    "estimated_cost": "Dollar range",
+                    "timeline": "Duration",
+                    "information_gain": "High|Medium|Low",
+                    "prerequisites": ["What needs to be done first"]
+                }
+            ],
+            "recommended_sequence": [
+                {
+                    "phase": 1,
+                    "experiments": ["exp_name1", "exp_name2"],
+                    "decision_point": "What decides go/no-go"
+                }
+            ],
+            "total_cost_estimate": {
+                "minimum_path": "$X-Y",
+                "comprehensive_path": "$X-Y"
+            },
+            "risk_assessment": {
+                "technical_risks": ["Risk 1"],
+                "mitigation_strategies": ["Strategy 1"]
+            },
+            "alternative_approaches": [
+                {
+                    "approach": "Alternative method",
+                    "pros": ["Advantage"],
+                    "cons": ["Disadvantage"]
+                }
+            ]
+        }
+    </output_format>
+</template>
+
+<template name="experiment_results_interpretation">
+    <task>
+        Interpret experimental results and update hypothesis confidence.
+    </task>
+
+    <experiment_data>
+        <experiment_name>{experiment_name}</experiment_name>
+        <results>{results}</results>
+        <statistics>{statistics}</statistics>
+    </experiment_data>
+
+    <original_hypothesis>
+        {hypothesis}
+    </original_hypothesis>
+
+    <instructions>
+        1. Evaluate if results support/refute hypothesis
+        2. Assess statistical significance
+        3. Consider alternative explanations
+        4. Update evidence tier if warranted
+        5. Recommend next steps
+    </instructions>
+
+    <output_format>
+        {
+            "hypothesis_status": "Supported|Refuted|Inconclusive",
+            "confidence_update": {
+                "before": 0.0-1.0,
+                "after": 0.0-1.0,
+                "rationale": "Why changed"
+            },
+            "evidence_tier_update": {
+                "before": "tier1|tier2|tier3",
+                "after": "tier1|tier2|tier3",
+                "rationale": "Why changed"
+            },
+            "interpretation": "Detailed interpretation",
+            "caveats": ["Limitation 1"],
+            "alternative_explanations": ["Alternative 1"],
+            "next_steps": ["Recommended action 1"]
+        }
+    </output_format>
+</template>

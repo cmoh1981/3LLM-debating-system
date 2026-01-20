@@ -1,0 +1,44 @@
+{
+  "skills": {
+    "aging-research": {
+      "description": "AgingResearchAI - Multi-LLM system for aging and metabolic disease drug discovery (T2D, NAFLD, Sarcopenia). Features literature-grounded claims, multi-LLM debate verification, and ADMET prediction.",
+      "instructions": "./skills/aging-research.md",
+      "triggers": [
+        "aging research",
+        "aging biology",
+        "drug discovery",
+        "T2D",
+        "Type 2 Diabetes",
+        "NAFLD",
+        "NASH",
+        "sarcopenia",
+        "ADMET",
+        "AMPK",
+        "metabolic disease",
+        "pathogenesis",
+        "drug target",
+        "scientific debate",
+        "PubMed search",
+        "literature search"
+      ]
+    }
+  },
+  "project": {
+    "name": "AgingResearchAI",
+    "type": "python",
+    "main_entry": "scripts/run_pipeline.py"
+  },
+  "environment": {
+    "python_path": ".",
+    "required_keys": [
+      "GOOGLE_API_KEY",
+      "DEEPSEEK_API_KEY",
+      "KIMI_API_KEY"
+    ],
+    "optional_keys": [
+      "ANTHROPIC_API_KEY",
+      "OPENAI_API_KEY",
+      "NCBI_API_KEY"
+    ]
+  }
+}

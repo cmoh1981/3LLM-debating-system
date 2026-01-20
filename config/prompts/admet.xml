@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ADMET Interpretation Prompt Template
+Used by: Claude (interpretation of computed results)
+Key principle: LLMs interpret tool outputs, don't predict values
+-->
+
+<template name="admet_interpretation">
+    <task>
+        Interpret ADMET predictions and classify compound risk.
+        NOTE: Interpret existing values, do NOT generate new predictions.
+    </task>
+
+    <compound>
+        <id>{compound_id}</id>
+        <name>{compound_name}</name>
+        <smiles>{smiles}</smiles>
+        <target>{target}</target>
+        <indication>{indication}</indication>
+    </compound>
+
+    <computed_properties>
+        <physicochemical>
+            <molecular_weight>{mw}</molecular_weight>
+            <logp>{logp}</logp>
+            <hbd>{hbd}</hbd>
+            <hba>{hba}</hba>
+            <tpsa>{tpsa}</tpsa>
+            <rotatable_bonds>{rot_bonds}</rotatable_bonds>
+            <aromatic_rings>{aromatic_rings}</aromatic_rings>
+        </physicochemical>
+
+        <absorption>
+            <caco2_permeability>{caco2}</caco2_permeability>
+            <intestinal_absorption>{intestinal_abs}</intestinal_absorption>
+            <pgp_substrate>{pgp_substrate}</pgp_substrate>
+            <bioavailability>{bioavailability}</bioavailability>
+        </absorption>
+
+        <distribution>
+            <vdss>{vdss}</vdss>
+            <plasma_protein_binding>{ppb}</plasma_protein_binding>
+            <bbb_permeability>{bbb}</bbb_permeability>
+            <cns_penetration>{cns}</cns_penetration>
+        </distribution>
+
+        <metabolism>
+            <cyp_inhibition>
+                <cyp1a2>{cyp1a2}</cyp1a2>
+                <cyp2c9>{cyp2c9}</cyp2c9>
+                <cyp2c19>{cyp2c19}</cyp2c19>
+                <cyp2d6>{cyp2d6}</cyp2d6>
+                <cyp3a4>{cyp3a4}</cyp3a4>
+            </cyp_inhibition>
+            <cyp_substrates>{cyp_substrates}</cyp_substrates>
+        </metabolism>
+
+        <excretion>
+            <clearance>{clearance}</clearance>
+            <half_life>{half_life}</half_life>
+        </excretion>
+
+        <toxicity>
+            <ames_mutagenicity>{ames}</ames_mutagenicity>
+            <herg_inhibition>{herg}</herg_inhibition>
+            <hepatotoxicity>{hepatotox}</hepatotoxicity>
+            <skin_sensitization>{skin_sens}</skin_sensitization>
+            <max_tolerated_dose>{mtd}</max_tolerated_dose>
+        </toxicity>
+
+        <structural_alerts>
+            {structural_alerts}
+        </structural_alerts>
+    </computed_properties>
+
+    <reference_compounds>
+        {similar_drugs}
+    </reference_compounds>
+
+    <drug_likeness_rules>
+        <lipinski>
+            - MW ≤ 500
+            - LogP ≤ 5
+            - HBD ≤ 5
+            - HBA ≤ 10
+        </lipinski>
+        <veber>
+            - TPSA ≤ 140
+            - Rotatable bonds ≤ 10
+        </veber>
+    </drug_likeness_rules>
+
+    <instructions>
+        1. Interpret computed values (do NOT predict new values)
+        2. Evaluate against drug-likeness rules
+        3. Compare to reference approved drugs
+        4. CLASSIFY risk level: High / Medium / Low
+        5. Identify specific liabilities
+        6. Suggest structural modifications if needed
+        7. Provide go/no-go recommendation
+
+        IMPORTANT: Use classification, not regression.
+        Do not predict IC50 or exact values.
+        Interpret what the tools have already computed.
+    </instructions>
+
+    <output_format>
+        {
+            "compound_id": "string",
+            "overall_risk": "High|Medium|Low",
+            "recommendation": "Proceed|Caution|Reject",
+            "drug_likeness": {
+                "lipinski_violations": 0,
+                "veber_compliant": true,
+                "assessment": "Passes/Fails drug-likeness"
+            },
+            "admet_assessment": {
+                "absorption": "Good|Moderate|Poor",
+                "distribution": "Good|Moderate|Poor",
+                "metabolism": "Favorable|Caution|Problematic",
+                "excretion": "Normal|Slow|Fast",
+                "toxicity": "Low|Medium|High"
+            },
+            "liabilities": [
+                {
+                    "category": "Toxicity|Metabolism|etc",
+                    "issue": "Description of liability",
+                    "severity": "High|Medium|Low",
+                    "evidence": "Which computed value indicates this"
+                }
+            ],
+            "comparison_to_reference": {
+                "most_similar": "Drug name",
+                "key_differences": ["Difference 1"],
+                "advantages": ["Advantage 1"],
+                "disadvantages": ["Disadvantage 1"]
+            },
+            "modifications_suggested": [
+                {
+                    "modification": "Description",
+                    "rationale": "Why this might help",
+                    "expected_improvement": "What property might improve"
+                }
+            ],
+            "summary": "One paragraph summary of ADMET profile"
+        }
+    </output_format>
+</template>

@@ -1,0 +1,43 @@
+{
+  "name": "aging-research",
+  "version": "1.0.0",
+  "description": "AgingResearchAI - Multi-LLM system for aging and metabolic disease drug discovery. Use for T2D, NAFLD/NASH, Sarcopenia research with literature-grounded claims and ADMET predictions.",
+  "triggers": [
+    "aging research",
+    "drug discovery",
+    "T2D pathogenesis",
+    "NAFLD",
+    "sarcopenia",
+    "ADMET prediction",
+    "scientific debate",
+    "PubMed search"
+  ],
+  "instructions_file": "../skills/aging-research.md",
+  "tools_required": ["Bash", "Read", "Write", "Edit"],
+  "environment": {
+    "PYTHONPATH": ".",
+    "requires_api_keys": [
+      "GOOGLE_API_KEY",
+      "DEEPSEEK_API_KEY",
+      "KIMI_API_KEY"
+    ]
+  },
+  "examples": [
+    {
+      "user": "Search for papers on AMPK and insulin resistance",
+      "action": "Use RAG to search PubMed and retrieve relevant literature with PMIDs"
+    },
+    {
+      "user": "Is metformin's primary mechanism through AMPK activation?",
+      "action": "Run multi-LLM debate to verify this claim with literature context"
+    },
+    {
+      "user": "Check ADMET properties of this compound: CC(=O)Nc1ccc(O)cc1",
+      "action": "Run quick_admet_check for acetaminophen SMILES"
+    },
+    {
+      "user": "What are the key pathways in T2D liver pathogenesis?",
+      "action": "Run pathogenesis discovery pipeline for T2D in liver tissue"
+    }
+  ]
+}

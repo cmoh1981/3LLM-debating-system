@@ -1,0 +1,111 @@
+[project]
+name = "aging-research-ai"
+version = "0.1.0"
+description = "Multi-model AI system for aging and metabolic disease drug discovery"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "AgingResearchAI Team"}
+]
+
+dependencies = [
+    # LLM Clients
+    "google-generativeai>=0.8.0",
+    "anthropic>=0.40.0",
+
+    # LangChain + LangGraph (Agent Orchestration)
+    "langchain>=0.3.0",
+    "langchain-core>=0.3.0",
+    "langchain-google-genai>=2.0.0",
+    "langchain-anthropic>=0.2.0",
+    "langgraph>=0.2.0",
+    "langgraph-checkpoint>=2.0.0",
+
+    # Vector DB & Embeddings
+    "chromadb>=0.5.0",
+    "sentence-transformers>=3.0.0",
+
+    # Bioinformatics
+    "lobster-ai>=0.4.0",
+
+    # Data Processing
+    "pandas>=2.0.0",
+    "numpy>=1.26.0",
+    "pydantic>=2.0.0",
+    "scipy>=1.11.0",
+    "scikit-learn>=1.4.0",
+
+    # Chemistry/ADMET - Core
+    "rdkit>=2024.3.1",
+    "datamol>=0.12.0",
+
+    # API & Web
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "httpx>=0.27.0",
+
+    # Utilities
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.0.0",
+    "typer>=0.12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.7.0",
+    "mypy>=1.13.0",
+]
+
+# DeepChem for deep learning ADMET (requires separate install due to heavy deps)
+deepchem = [
+    "deepchem>=2.8.0",
+    "torch>=2.0.0",
+    "dgl>=1.1.0",  # For graph neural networks
+]
+
+# Janggu for genomics deep learning
+genomics = [
+    "janggu[tf2]>=0.10.0",
+    "tensorflow>=2.10.0",
+    "pybedtools>=0.9.0",
+    "pysam>=0.22.0",
+    "pyBigWig>=0.3.0",
+]
+
+# Full ML stack
+ml = [
+    "deepchem>=2.8.0",
+    "torch>=2.0.0",
+    "dgl>=1.1.0",
+    "transformers>=4.40.0",  # For ChemBERTa
+]
+
+# All optional dependencies
+all = [
+    "aging-research-ai[dev,deepchem,ml,genomics]",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true

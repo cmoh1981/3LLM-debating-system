@@ -1,0 +1,150 @@
+# PubMed Monitoring Watchlist
+# ============================
+# Keywords, authors, and journals to monitor for real-time alerts
+
+# Keyword Groups
+keywords:
+  # Aging Biology
+  aging:
+    - "cellular senescence"
+    - "senolytic"
+    - "senostatic"
+    - "SASP"
+    - "longevity intervention"
+    - "healthspan"
+    - "lifespan extension"
+    - "aging hallmarks"
+    - "epigenetic clock"
+    - "biological age"
+
+  # Type 2 Diabetes
+  t2d:
+    - "type 2 diabetes drug target"
+    - "insulin resistance mechanism"
+    - "beta cell regeneration"
+    - "GLP-1 agonist"
+    - "SGLT2 inhibitor"
+    - "incretin therapy"
+    - "diabetic complications"
+    - "islet transplantation"
+
+  # NAFLD/NASH
+  nafld:
+    - "NAFLD therapy"
+    - "NASH treatment"
+    - "hepatic steatosis"
+    - "liver fibrosis reversal"
+    - "FXR agonist"
+    - "PPAR agonist liver"
+    - "ACC inhibitor"
+    - "THR-beta agonist"
+
+  # Sarcopenia
+  sarcopenia:
+    - "sarcopenia treatment"
+    - "muscle wasting therapy"
+    - "myostatin inhibitor"
+    - "muscle regeneration"
+    - "satellite cell activation"
+    - "muscle protein synthesis"
+    - "anabolic resistance"
+
+  # Drug Discovery
+  drug_discovery:
+    - "target validation"
+    - "clinical trial phase 3"
+    - "FDA approval"
+    - "breakthrough therapy"
+    - "fast track designation"
+    - "structure-based drug design"
+
+# Key Authors to Follow
+authors:
+  aging_biology:
+    - name: "Sinclair, David H"
+      affiliation: "Harvard Medical School"
+      focus: "NAD+ metabolism, epigenetic reprogramming"
+
+    - name: "Campisi, Judith"
+      affiliation: "Buck Institute"
+      focus: "Cellular senescence, SASP"
+
+    - name: "Kirkland, James L"
+      affiliation: "Mayo Clinic"
+      focus: "Senolytics, clinical translation"
+
+    - name: "Lopez-Otin, Carlos"
+      affiliation: "Universidad de Oviedo"
+      focus: "Hallmarks of aging"
+
+    - name: "Bhatt, Deepak L"
+      focus: "Cardiovascular outcomes, metabolic disease"
+
+  metabolic_disease:
+    - name: "Drucker, Daniel J"
+      affiliation: "University of Toronto"
+      focus: "GLP-1, incretins"
+
+    - name: "Newgard, Christopher B"
+      affiliation: "Duke University"
+      focus: "Metabolomics, diabetes"
+
+    - name: "Sanyal, Arun J"
+      affiliation: "VCU"
+      focus: "NAFLD/NASH"
+
+# Journals to Prioritize
+journals:
+  high_priority:
+    - "Nature"
+    - "Science"
+    - "Cell"
+    - "Nature Medicine"
+    - "Nature Aging"
+    - "Cell Metabolism"
+    - "New England Journal of Medicine"
+    - "Lancet"
+
+  medium_priority:
+    - "Nature Communications"
+    - "Cell Reports"
+    - "JCI Insight"
+    - "Aging Cell"
+    - "GeroScience"
+    - "Diabetes"
+    - "Hepatology"
+    - "Journal of Cachexia, Sarcopenia and Muscle"
+
+# Alert Configuration
+alerts:
+  # Immediate alerts (critical updates)
+  immediate:
+    keywords:
+      - "breakthrough"
+      - "FDA approval"
+      - "phase 3 success"
+      - "clinical trial failure"
+
+  # Daily digest
+  daily:
+    min_relevance: 0.7
+    max_papers: 20
+
+  # Weekly summary
+  weekly:
+    include_trends: true
+    include_statistics: true
+
+# Exclusion filters
+exclusions:
+  # Exclude review-only searches sometimes
+  article_types_exclude:
+    - "Comment"
+    - "Editorial"
+    - "Erratum"
+
+  # Keywords that indicate off-topic
+  negative_keywords:
+    - "veterinary"
+    - "plant aging"
+    - "food aging"
