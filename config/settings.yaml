@@ -24,6 +24,18 @@ diseases:
     mesh_terms: ["Sarcopenia"]
     keywords: ["muscle wasting", "muscle atrophy", "aging muscle"]
 
+  - name: "Heart Failure"
+    abbreviation: "HF"
+    mesh_terms: ["Heart Failure"]
+    keywords: ["cardiac dysfunction", "cardiomyopathy", "HFpEF", "HFrEF", "myocardial fibrosis"]
+    tissues: ["heart", "cardiac"]
+    mechanisms:
+      - "mitochondrial dysfunction"
+      - "cardiac fibrosis"
+      - "inflammation"
+      - "cellular senescence"
+      - "oxidative stress"
+
 # Model Configuration
 models:
   gemini:
@@ -212,6 +224,9 @@ monitoring:
     - "T2D target"
     - "NAFLD treatment"
     - "sarcopenia intervention"
+    - "heart failure therapy"
+    - "cardiac senescence"
+    - "myocardial fibrosis"
 
   # Watch authors
   authors:
